@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // 4. Добавить кнопку в разметку и повесить на неё clickListener в Activity.
-        val btn_click_me = findViewById(R.id.btn_click_me) as Button
+        val btn_click_me = findViewById<Button>(R.id.btn_click_me)
         btn_click_me.setOnClickListener {
             Toast.makeText(this@MainActivity, "You clicked me.", Toast.LENGTH_SHORT).show()
         }
