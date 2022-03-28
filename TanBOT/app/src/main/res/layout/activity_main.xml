@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:Android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res-auto"
+    Android:layout_width="match_parent"
+    Android:layout_height="match_parent"
+    Android:orientation="vertical"
+    Android:gravity="center_horizontal"
+    tools:context=".MainActivity"
+    tools:ignore="NamespaceTypo"
+    >
+
+    <!--Показать когда блютус доступен или нет-->
+    <TextView
+        Android:id="@+id/statusBluetoothTv"
+        Android:text=""
+        Android:textAlignment="center"
+        Android:textSize="20sp"
+        Android:textColor="#000"
+        Android:layout_height="wrap_content"
+        Android:layout_width="match_parent"/>
+    <!--Показать иконку блютус-->
+    <ImageView
+        Android:id="@+id/BluetoothIv"
+        Android:layout_width="100dp"
+        Android:layout_height="100dp"
+        Android:contentDescription="@string/ble" />
+    <!--Кнока включения-->
+    <Button
+        Android:id="@+id/onBtn"
+        Android:minWidth="200dp"
+        Android:layout_width="wrap_content"
+        Android:layout_height="wrap_content"
+        Android:text="@string/onBtn"/>
+    <!--Кнопка выключения-->
+    <Button
+        Android:id="@+id/offBtn"
+        Android:minWidth="200dp"
+        Android:layout_width="wrap_content"
+        Android:layout_height="wrap_content"
+        Android:text="@string/offBtn"/>
+    <!--Кнопка обнаружения-->
+    <Button
+        Android:id="@+id/discoverableBtn"
+        Android:minWidth="200dp"
+        Android:layout_width="wrap_content"
+        Android:layout_height="wrap_content"
+        Android:text="@string/discoverableBtn"/>
+    <!--Кнопка отображения подключенных устройств-->
+    <Button
+        Android:id="@+id/pairedBtn"
+        Android:minWidth="200dp"
+        Android:layout_width="wrap_content"
+        Android:layout_height="wrap_content"
+        Android:text="@string/piredBtn"/>
+    <!--Показать подключенные устройства здесь-->
+    <TextView
+        Android:id="@+id/pairedTv"
+        Android:minWidth="200dp"
+        Android:text=""
+        Android:textColor="#000"
+        Android:layout_width="match_parent"
+        Android:layout_height="wrap_content"/>
+</LinearLayout>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TanBOT</string>
+    <string name="onBtn">Включить</string>
+    <string name="offBtn">Выключить</string>
+    <string name="discoverableBtn">Обнаружить</string>
+    <string name="piredBtn">Подключенные</string>
+    <string name="ble">BLE</string>
+</resources>
