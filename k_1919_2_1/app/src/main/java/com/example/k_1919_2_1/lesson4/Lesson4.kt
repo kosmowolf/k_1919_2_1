@@ -39,7 +39,7 @@ class Lesson4 {
         return true
     }
 
-    fun funHigh(_f:(float:Float)->Unit ,__f:(double:Double)->Short ,_c:(char:Char)->Boolean){//4.2 способ
+    private fun funHigh(_f:(float:Float)->Unit ,__f:(double:Double)->Short ,_c:(char:Char)->Boolean){//4.2 способ
         _f(1f)
         val short = __f(1.0)
         val boolean = _c('f')
@@ -48,5 +48,7 @@ class Lesson4 {
     fun main(){
        funHigh(_f,__f,_c)
     }
+
+
 
 }
