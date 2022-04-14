@@ -3,8 +3,57 @@ package com.example.k_1919_2_1.lesson3
 import android.util.Log
 import android.view.ViewGroup
 import com.example.k_1919_2_1.lesson1.Person
+import com.example.k_1919_2_1.lesson4.Speakable
 
-class Lesson3 {
+class Lesson3: Speakable {
+
+   fun usual1(string: String){//1 способ
+            Log.d("@@@", "  Сообщение $string" )
+    }
+
+    val f=fun(string:String){//2 способ
+        Log.d("@@@", "  Сообщение $string" )
+
+    }
+
+    override fun f(string: String,i: Int):Double {//3.1 способ
+        Log.d("@@@", "  Сообщение $string" )
+        return 1.0
+    }
+
+    val callback =  object : Speakable{ //3.2 способ
+        override fun f(string: String,i: Int):Double {
+        Log.d("@@@", "  Сообщение $string" )
+        return 1.0
+        }
+    }
+
+
+    val callbackLambda1 = Speakable hak@{ string,i -> //4.1 способ
+        Log.d("@@@", "  Сообщение $string" )
+        1.0
+    }
+
+    val callbackLambda2 =  r@{ string:String,i: Int -> //4.2 способ
+        Log.d("@@@", "  Сообщение $string" )
+        return@r 1
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     fun test(){
         val people:List<Person> = mutableListOf(Person("name1",20),Person("name2",22))
         people.get(0).age
@@ -74,6 +123,8 @@ class Lesson3 {
     fun write(i:Float){
         Log.d("","это $i")
     }
+
+
 
 }
 

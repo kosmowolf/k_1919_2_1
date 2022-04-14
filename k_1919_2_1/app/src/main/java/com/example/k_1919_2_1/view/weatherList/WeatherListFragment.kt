@@ -61,15 +61,21 @@ class WeatherListFragment : Fragment(),OnItemListClickListener {
         }
         //Подписался как слушатель
         viewModel.getData().observe(viewLifecycleOwner,observer)
+
         binding.FloatingActionButton.setOnClickListener {
-            isRussian = !isRussian
-            if (isRussian) {
-                viewModel.getWeatherRussia()
-                binding.FloatingActionButton.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_russia))
-            }else{
-                binding.FloatingActionButton.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_earth))
-                viewModel.getWeatherWorld()
-            }
+
+                isRussian = !isRussian
+                if (isRussian) {
+                    viewModel.getWeatherRussia()
+                    binding.FloatingActionButton.setImageDrawable(ContextCompat
+                        .getDrawable(requireContext(),R.drawable.ic_russia))
+                }else{
+                    binding.FloatingActionButton.setImageDrawable(ContextCompat
+                        .getDrawable(requireContext(),R.drawable.ic_earth))
+                    viewModel.getWeatherWorld()
+                }
+
+
         }
         viewModel.getWeatherRussia()
     }
