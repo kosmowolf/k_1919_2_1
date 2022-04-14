@@ -28,4 +28,25 @@ class Lesson4 {
     fun some6(_speakable: Speakable){//4.2 способ
         _speakable.f("что то произошло 4.2 способ ",1)
     }
+
+    val _f = fun (float:Float):Unit{
+
+    }
+    val __f = fun (double:Double):Short{
+        return 1
+    }
+    val _c = fun (char:Char):Boolean{
+        return true
+    }
+
+    fun funHigh(_f:(float:Float)->Unit ,__f:(double:Double)->Short ,_c:(char:Char)->Boolean){//4.2 способ
+        _f(1f)
+        val short = __f(1.0)
+        val boolean = _c('f')
+    }
+
+    fun main(){
+       funHigh(_f,__f,_c)
+    }
+
 }
