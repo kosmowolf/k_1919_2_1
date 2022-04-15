@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.k_1919_2_1.R
 import com.example.k_1919_2_1.ViewModel.AppState
 import com.example.k_1919_2_1.ViewModel.MainViewModel
@@ -31,7 +33,7 @@ class WeatherListFragment : Fragment(),OnItemListClickListener {
             return _binding!!
         }
 
-    val adapter = WeatherListAdapter(this)
+    private val adapter = WeatherListAdapter(this)
 
     override fun onDestroy() {
         super.onDestroy()
@@ -41,43 +43,55 @@ class WeatherListFragment : Fragment(),OnItemListClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding= FragmentWeatherListBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     var isRussian = true
+   // val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+   private val viewModel:MainViewModel by lazy {
+       ViewModelProvider(this).get(MainViewModel::class.java)
+   }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.RecyclerView.adapter = adapter
-
-        val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        val observer = object:Observer<AppState>{
-            override fun onChanged(data: AppState) {
-                renderDate(data)
-            }
+        binding.RecyclerView.also{//TODO HW Вынести в initRecycler
+            it.adapter = this@WeatherListFragment.adapter
+            it.layoutManager = LinearLayoutManager(requireContext())
         }
+
+
+//        val observer = object:Observer<AppState>{
+//            override fun onChanged(data: AppState) {
+//                renderDate(data)
+//            }
+//        }
+        val observer = {data: AppState->renderDate(data)}
         //Подписался как слушатель
         viewModel.getData().observe(viewLifecycleOwner,observer)
 
+        setupFab()
+
+        viewModel.getWeatherRussia()
+    }
+
+    private fun setupFab() {
         binding.FloatingActionButton.setOnClickListener {
 
-                isRussian = !isRussian
-                if (isRussian) {
-                    viewModel.getWeatherRussia()
-                    binding.FloatingActionButton.setImageDrawable(ContextCompat
-                        .getDrawable(requireContext(),R.drawable.ic_russia))
-                }else{
-                    binding.FloatingActionButton.setImageDrawable(ContextCompat
-                        .getDrawable(requireContext(),R.drawable.ic_earth))
-                    viewModel.getWeatherWorld()
-                }
+            isRussian = !isRussian
+            if (isRussian) {
+                viewModel.getWeatherRussia()
+                binding.FloatingActionButton.setImageDrawable(ContextCompat
+                    .getDrawable(requireContext(),R.drawable.ic_russia))
+            }else{
+                binding.FloatingActionButton.setImageDrawable(ContextCompat
+                    .getDrawable(requireContext(),R.drawable.ic_earth))
+                viewModel.getWeatherWorld()
+            }
 
 
         }
-        viewModel.getWeatherRussia()
     }
 
     private fun renderDate(data:AppState){
@@ -110,11 +124,11 @@ class WeatherListFragment : Fragment(),OnItemListClickListener {
     }
 
     override fun onItemClick(weather: Weather) {
-        val bundle = Bundle()
-        bundle.putParcelable(KEY_BUNDLE_WEATHER,weather)
-        requireActivity().supportFragmentManager.beginTransaction().add(
+         requireActivity().supportFragmentManager.beginTransaction().add(
             R.id.container
-            , DetailsFragment.newInstance(bundle)
+            , DetailsFragment.newInstance(Bundle().apply {
+                putParcelable(KEY_BUNDLE_WEATHER,weather)
+            })
         ).addToBackStack("").commit()
     }
 }

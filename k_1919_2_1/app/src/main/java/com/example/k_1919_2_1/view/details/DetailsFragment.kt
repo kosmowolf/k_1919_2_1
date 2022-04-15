@@ -40,21 +40,32 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.getParcelable<Weather>(KEY_BUNDLE_WEATHER)?.let {
+            renderDate(it)
+        }
         val weather:Weather = requireArguments().getParcelable<Weather>(KEY_BUNDLE_WEATHER)!!
         renderDate(weather)
+
     }
 
     private fun renderDate(weather: Weather){
-        binding.loadingLayout.visibility = View.GONE
-        binding.cityName.text = weather.city.name.toString()
-        binding.temperatureValue.text = weather.temperature.toString()
-        binding.feelsLikeValue.text = weather.feelsLike.toString()
-        binding.cityCoordinates.text = "${weather.city.lat} ${weather.city.lon}"
-        Snackbar.make(binding.mainView,"Получилось",Snackbar.LENGTH_LONG).show()
+        with(binding){
+            loadingLayout.visibility = View.GONE
+            cityName.text = weather.city.name
+            with(weather){
+                temperatureValue.text = temperature.toString()
+                feelsLikeValue.text = feelsLike.toString()
+                cityCoordinates.text = "${city.lat} ${city.lon}"
+            }
+            Snackbar.make(mainView,"Получилось",Snackbar.LENGTH_LONG).show()
+            mainView.showSnackBar() //TODO HW можно вынести в функцию - расширение
+        }
         //Toast.makeText(requireContext(),"Работает", Toast.LENGTH_SHORT).show()
+    }
+    //TODO HW
+    fun View.showSnackBar(){
 
     }
-
     companion object {
         @JvmStatic
         fun newInstance(bundle: Bundle):DetailsFragment{
