@@ -21,11 +21,10 @@ class Lesson3: Speakable {
         return 1.0
     }
 
-    val callback =  object : Speakable{ //3.2 способ
-        override fun f(string: String,i: Int):Double {
+    val callback = Speakable { string, i ->
+        //3.2 способ
         Log.d("@@@", "  Сообщение $string" )
-        return 1.0
-        }
+        1.0
     }
 
 

@@ -63,7 +63,7 @@ class DetailsFragment : Fragment() {
         //Toast.makeText(requireContext(),"Работает", Toast.LENGTH_SHORT).show()
     }
     //TODO HW
-    fun View.showSnackBar(){
+    private fun View.showSnackBar(){
 
     }
     companion object {
