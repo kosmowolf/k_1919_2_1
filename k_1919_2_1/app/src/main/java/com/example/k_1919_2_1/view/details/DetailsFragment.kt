@@ -1,17 +1,17 @@
 package com.example.k_1919_2_1.view.details
 
 import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.*
+import com.example.k_1919_2_1.ViewModel.ResponseState
 import com.example.k_1919_2_1.ViewModel.AppState
 import com.example.k_1919_2_1.databinding.FragmentDetailsBinding
-import com.example.k_1919_2_1.repository.OnServerResponse
-import com.example.k_1919_2_1.repository.Weather
-import com.example.k_1919_2_1.repository.WeatherDTO
-import com.example.k_1919_2_1.repository.WeatherLoader
+import com.example.k_1919_2_1.repository.*
 import com.example.k_1919_2_1.utils.KEY_BUNDLE_WEATHER
 import com.google.android.material.snackbar.Snackbar
 
@@ -20,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class DetailsFragment : Fragment(), OnServerResponse {
+class DetailsFragment() : Fragment(), OnServerResponse, OnSeverResponseListener, Parcelable {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding: FragmentDetailsBinding
@@ -42,12 +42,17 @@ class DetailsFragment : Fragment(), OnServerResponse {
     }
 
     lateinit var currentCityName:String
+
+    //constructor(parcel: Parcel) : this() {
+    //    currentCityName = parcel.readString()
+    //}
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.getParcelable<Weather>(KEY_BUNDLE_WEATHER)?.let {
             currentCityName = it.city.name
             //Thread{
-                WeatherLoader(this@DetailsFragment).loadWeather(it.city.lat,it.city.lon)
+                WeatherLoader(this@DetailsFragment,this@DetailsFragment).loadWeather(it.city.lat,it.city.lon)
             //}.start()
 
         }
@@ -85,11 +90,19 @@ class DetailsFragment : Fragment(), OnServerResponse {
     }
 
     override fun onResponce(weatherDTO: WeatherDTO) {
-
             renderDate(weatherDTO)
+    }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(currentCityName)
+    }
 
+    override fun describeContents(): Int {
+        return 0
+    }
 
+    override fun onError(error: ResponseState) {
+        //TODO("Выводим ошибку")
     }
 }
 
