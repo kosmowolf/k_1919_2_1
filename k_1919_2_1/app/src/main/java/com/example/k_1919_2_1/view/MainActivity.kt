@@ -14,6 +14,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.k_1919_2_1.R
 import com.example.k_1919_2_1.lesson3.Lesson3
 import com.example.k_1919_2_1.lesson3.someViewGroup
@@ -43,9 +45,12 @@ class MainActivity : AppCompatActivity() {
         })
 
         val receiver = MyBroadcastReceiver()
-        registerReceiver(receiver, IntentFilter(KEY_WAVE))
+        //registerReceiver(receiver, IntentFilter(KEY_WAVE))
         registerReceiver(receiver, IntentFilter("android.intent.action.AIRPLANE_MODE"))
         //LocalBroadcastManager.getInstance(this).registerReceiver("myAction")
+
+        //PeriodicWorkRequestBuilder<>()
+        //WorkManager.getInstance(this).enqueue()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
