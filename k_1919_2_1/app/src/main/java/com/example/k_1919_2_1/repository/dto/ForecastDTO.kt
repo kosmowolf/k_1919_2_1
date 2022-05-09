@@ -1,4 +1,4 @@
-package com.example.k_1919_2_1.repository
+package com.example.k_1919_2_1.repository.dto
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

@@ -1,18 +1,22 @@
 package com.example.k_1919_2_1.view.details
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.*
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.k_1919_2_1.ViewModel.ResponseState
 import com.example.k_1919_2_1.ViewModel.AppState
 import com.example.k_1919_2_1.databinding.FragmentDetailsBinding
 import com.example.k_1919_2_1.repository.*
-import com.example.k_1919_2_1.utils.KEY_BUNDLE_WEATHER
+import com.example.k_1919_2_1.repository.dto.WeatherDTO
+import com.example.k_1919_2_1.utils.*
 import com.google.android.material.snackbar.Snackbar
 
 // TODO: Rename parameter arguments, choose names that match
@@ -20,7 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class DetailsFragment() : Fragment(), OnServerResponse, OnSeverResponseListener, Parcelable {
+class DetailsFragment : Fragment(), OnServerResponse, OnSeverResponseListener{
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding: FragmentDetailsBinding
@@ -31,8 +35,19 @@ class DetailsFragment() : Fragment(), OnServerResponse, OnSeverResponseListener,
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(receiver)
     }
 
+    val receiver = object: BroadcastReceiver() {//настраиваемся на волну)
+    override fun onReceive(context: Context?, intent: Intent?) {
+        intent?.let { intent->
+            intent.getParcelableExtra<WeatherDTO>(KEY_BUNDLE_SERVICE_BROADCAST_WEATHER)?.let {
+                onResponce(it)
+            }
+
+        }
+    }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,22 +58,24 @@ class DetailsFragment() : Fragment(), OnServerResponse, OnSeverResponseListener,
 
     lateinit var currentCityName:String
 
-    //constructor(parcel: Parcel) : this() {
-    //    currentCityName = parcel.readString()
-    //}
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(receiver,
+            IntentFilter(KEY_WAVE_SERVICE_BROADCAST)
+        )
         arguments?.getParcelable<Weather>(KEY_BUNDLE_WEATHER)?.let {
             currentCityName = it.city.name
             //Thread{
-                WeatherLoader(this@DetailsFragment,this@DetailsFragment).loadWeather(it.city.lat,it.city.lon)
+            //    WeatherLoader(this@DetailsFragment,this@DetailsFragment).loadWeather(it.city.lat,it.city.lon)
             //}.start()
-
+            requireActivity().startService(Intent(requireContext(),DetailService::class.java).apply {
+                putExtra(KEY_BUNDLE_LAT, it.city.lat)
+                putExtra(KEY_BUNDLE_LON, it.city.lon)
+            })
         }
 
-        //val weather:Weather = requireArguments().getParcelable<Weather>(KEY_BUNDLE_WEATHER)!!
-       // renderDate(weather)
+
 
     }
 
@@ -93,13 +110,7 @@ class DetailsFragment() : Fragment(), OnServerResponse, OnSeverResponseListener,
             renderDate(weatherDTO)
     }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(currentCityName)
-    }
 
-    override fun describeContents(): Int {
-        return 0
-    }
 
     override fun onError(error: ResponseState) {
         //TODO("Выводим ошибку")

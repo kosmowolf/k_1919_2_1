@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         val receiver = MyBroadcastReceiver()
         registerReceiver(receiver, IntentFilter(KEY_WAVE))
+        registerReceiver(receiver, IntentFilter("android.intent.action.AIRPLANE_MODE"))
         //LocalBroadcastManager.getInstance(this).registerReceiver("myAction")
     }
 

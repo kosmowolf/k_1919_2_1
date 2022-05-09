@@ -4,7 +4,12 @@ import android.os.Handler
 import android.os.Looper
 import com.example.k_1919_2_1.BuildConfig
 import com.example.k_1919_2_1.ViewModel.ResponseState
+import com.example.k_1919_2_1.repository.dto.WeatherDTO
+import com.example.k_1919_2_1.utils.YANDEX_API_KEY
+import com.example.k_1919_2_1.utils.YANDEX_DOMAIN
+import com.example.k_1919_2_1.utils.YANDEX_ENDPOINT
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -14,7 +19,7 @@ class WeatherLoader(private val onServerResponseListener: OnServerResponse,
                     private val onSeverResponseListener: OnSeverResponseListener) {
 
     fun loadWeather(lat:Double,lon:Double){
-        val urlText = "https://api.weather.yandex.ru/v2/informers?lat=$lat&lon=$lon"
+        val urlText = "$YANDEX_DOMAIN${YANDEX_ENDPOINT}lat=$lat&lon=$lon"
         //val urlText = "http://212.86.114.27/v2/informers?lat=$lat&lon=$lon"
         //binding.webview.loadUrl(urlText)
         val uri = URL(urlText)
@@ -25,33 +30,42 @@ class WeatherLoader(private val onServerResponseListener: OnServerResponse,
                     connectTimeout = 1000 //set
                     //val r = readTimeout  //get
                     readTimeout= 1000 //set
-                    addRequestProperty("X-Yandex-API-Key", BuildConfig.WEATHER_API_KEY)
+                    addRequestProperty(YANDEX_API_KEY, BuildConfig.WEATHER_API_KEY)
                 }
-                Thread.sleep(500)
-                //try {
-                val headers = urlConnection.headerFields
-                val responseCode = urlConnection.responseCode
-                val responseMessage = urlConnection.responseMessage
+                try {
 
-                val serverside = 500
-                val clientside = 400..serverside
-                val responseOk = 200..299
+                    Thread.sleep(500)
+                    //try {
+                    val headers = urlConnection.headerFields
+                    val responseCode = urlConnection.responseCode
+                    val responseMessage = urlConnection.responseMessage
 
+                    val serverside = 500..599
+                    val clientside = 400..499
+                    val responseOk = 200..299
 
-                if (responseCode >= serverside) {
-                    //todo HW "Что-то пошло не так" на стороне сервера
-                    onSeverResponseListener.onError(ResponseState.Error1)
-                } else if (responseCode in clientside) {
-                    //todo HW "Что-то пошло не так" на стороне клиента
-                } else if (responseCode in responseOk) {
-                    val buffer = BufferedReader(InputStreamReader(urlConnection.inputStream))
-                    // val result = (buffer.toString())
-                    val weatherDTO: WeatherDTO = Gson().fromJson(buffer, WeatherDTO::class.java)
-                    Handler(Looper.getMainLooper()).post {// ящик на конвеере
-                        onServerResponseListener.onResponce(weatherDTO)
+                    when {
+                        responseCode in serverside -> {
+                            //todo HW "Что-то пошло не так" на стороне сервера
+                            onSeverResponseListener.onError(ResponseState.Error1)
+                        }
+                        responseCode in clientside -> {
+                            //todo HW "Что-то пошло не так" на стороне клиента
+                        }
+                        responseCode in responseOk -> {
+                            val buffer = BufferedReader(InputStreamReader(urlConnection.inputStream))
+                            // val result = (buffer.toString())
+                            val weatherDTO: WeatherDTO = Gson().fromJson(buffer, WeatherDTO::class.java)
+                            Handler(Looper.getMainLooper()).post {// ящик на конвеере
+                                onServerResponseListener.onResponce(weatherDTO)
+                            }
+                        }
                     }
-                }
+                }catch(e:JsonSyntaxException){
 
+                }finally {
+                    urlConnection.disconnect()
+                }
                 //закрытие потока
             }.start()
         //}
