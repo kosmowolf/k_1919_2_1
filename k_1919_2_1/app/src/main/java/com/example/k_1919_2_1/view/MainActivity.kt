@@ -14,8 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+
 import com.example.k_1919_2_1.R
 import com.example.k_1919_2_1.lesson3.Lesson3
 import com.example.k_1919_2_1.lesson3.someViewGroup

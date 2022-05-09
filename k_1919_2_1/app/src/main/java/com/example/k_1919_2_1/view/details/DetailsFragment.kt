@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.*
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.k_1919_2_1.BuildConfig
 import com.example.k_1919_2_1.ViewModel.ResponseState
 import com.example.k_1919_2_1.ViewModel.AppState
 import com.example.k_1919_2_1.databinding.FragmentDetailsBinding
@@ -18,6 +19,9 @@ import com.example.k_1919_2_1.repository.*
 import com.example.k_1919_2_1.repository.dto.WeatherDTO
 import com.example.k_1919_2_1.utils.*
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+import okhttp3.*
+import java.io.IOException
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,14 +73,53 @@ class DetailsFragment : Fragment(), OnServerResponse, OnSeverResponseListener{
             //Thread{
             //    WeatherLoader(this@DetailsFragment,this@DetailsFragment).loadWeather(it.city.lat,it.city.lon)
             //}.start()
-            requireActivity().startService(Intent(requireContext(),DetailService::class.java).apply {
-                putExtra(KEY_BUNDLE_LAT, it.city.lat)
-                putExtra(KEY_BUNDLE_LON, it.city.lon)
-            })
+//            requireActivity().startService(Intent(requireContext(),DetailService::class.java).apply {
+//                putExtra(KEY_BUNDLE_LAT, it.city.lat)
+//                putExtra(KEY_BUNDLE_LON, it.city.lon)
+//            })
+            getWeather(it.city.lat, it.city.lon)
         }
+    }
 
+    private fun getWeather(lat:Double, lon:Double){
+        binding.loadingLayout.visibility = View.VISIBLE
 
+        val client  = OkHttpClient()
+        val builder = Request.Builder()
 
+        builder.addHeader(YANDEX_API_KEY, BuildConfig.WEATHER_API_KEY)
+        builder.url("$YANDEX_DOMAIN${YANDEX_ENDPOINT}lat=$lat&lon=$lon")
+        val request = builder.build()
+        val callback:Callback = object : Callback{
+            override fun onFailure(call: Call, e: IOException) {
+                //TODO HW
+                //binding.loadingLayout.visibility = View.GONE
+                //renderDate()
+
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+
+                if (response.isSuccessful){
+                    val weatherDTO: WeatherDTO = Gson().fromJson(response.body()!!.string(), WeatherDTO::class.java)
+                    requireActivity().runOnUiThread{
+                        renderDate(weatherDTO)
+                    }
+
+                }else{
+                    //TODO HW
+                }
+            }
+        }
+        val call = client.newCall(request)
+        Thread{
+            //Работа1
+            val response = call.execute() //если хотим выполнить что-то здесь и сейчас
+
+            //работа 2 с использованием  response
+        }.start()
+
+        call.enqueue(callback)
     }
 
     private fun renderDate(weather: WeatherDTO){
