@@ -24,7 +24,9 @@ class DetailsRepositoryRetrofit2Impl:DetailsRepository {
             override fun onResponse(call: Call<WeatherDTO>, response: Response<WeatherDTO>) {
                 if(response.isSuccessful){
                     response.body()?.let{
-                        callbackMy.onResponse(convertDTOtoModel(it))
+                        val weather = convertDTOtoModel(it)
+                        weather.city = city
+                        callbackMy.onResponse(weather)
                     }
                 }
             }

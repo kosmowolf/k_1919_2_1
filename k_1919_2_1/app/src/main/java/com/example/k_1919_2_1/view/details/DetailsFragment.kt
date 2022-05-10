@@ -4,15 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.load
+import coil.request.ImageRequest
+import com.bumptech.glide.Glide
 import com.example.k_1919_2_1.ViewModel.DetailsState
 import com.example.k_1919_2_1.ViewModel.DetailsViewModel
 import com.example.k_1919_2_1.databinding.FragmentDetailsBinding
 import com.example.k_1919_2_1.repository.Weather
 import com.example.k_1919_2_1.utils.KEY_BUNDLE_WEATHER
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
+import java.net.URL
 
 
 private const val ARG_PARAM1 = "param1"
@@ -79,12 +87,32 @@ class DetailsFragment : Fragment(){
                         cityCoordinates.text = "${weather.city.lat} ${weather.city.lon}"
 
                     Snackbar.make(mainView,"Получилось",Snackbar.LENGTH_LONG).show()
+                    /*Glide.with(requireContext())
+                        .load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
+                        .into(headerIcon)*/
+                   /* Picasso.get()?.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
+                        ?.into(headerIcon)*/
+                    headerCityIcon.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
+                    icon.loadSvg("https://yastatic.net/weather/i/icons/blueye/color/svg/${weather.icon}.svg")
 
                 }
             }
         }
 
         //Toast.makeText(requireContext(),"Работает", Toast.LENGTH_SHORT).show()
+    }
+
+    fun ImageView.loadSvg(url: String){
+        val imageLoader = ImageLoader.Builder(this.context)
+            .componentRegistry { add(SvgDecoder(this@loadSvg.context)) }
+            .build()
+        val request = ImageRequest.Builder(this.context)
+            .crossfade(true)
+            .crossfade(500)
+            .data(url)
+            .target(this)
+            .build()
+        imageLoader.enqueue(request)
     }
 
     companion object {
