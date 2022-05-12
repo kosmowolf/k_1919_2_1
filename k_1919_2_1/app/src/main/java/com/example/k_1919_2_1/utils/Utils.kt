@@ -21,8 +21,6 @@ const val KEY_WAVE = "myaction"
 const val KEY_SP_FILE_NAME_1 = "fileName1"
 const val KEY_SP_FILE_NAME_1_KEY_IS_RUSSIAN = "is_russian"
 
-class Utils {
-}
 
 fun convertDTOtoModel(weatherDTO: WeatherDTO): Weather{
     val fact: FactDTO = weatherDTO.factDTO
