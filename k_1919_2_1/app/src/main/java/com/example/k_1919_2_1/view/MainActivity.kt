@@ -1,5 +1,6 @@
 package com.example.k_1919_2_1.view
 
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +27,8 @@ import com.example.k_1919_2_1.lesson6.MainService
 import com.example.k_1919_2_1.lesson6.MyBroadcastReceiver
 import com.example.k_1919_2_1.lesson6.ThreadsFragment
 import com.example.k_1919_2_1.utils.KEY_BUNDLE_ACTIVITY_MESSAGE
+import com.example.k_1919_2_1.utils.KEY_SP_FILE_NAME_1
+import com.example.k_1919_2_1.utils.KEY_SP_FILE_NAME_1_KEY_IS_RUSSIAN
 import com.example.k_1919_2_1.utils.KEY_WAVE
 import com.example.k_1919_2_1.view.weatherList.WeatherListFragment
 import kotlinx.android.synthetic.main.fragment_threads.*
@@ -47,6 +50,13 @@ class MainActivity : AppCompatActivity() {
         //registerReceiver(receiver, IntentFilter(KEY_WAVE))
         registerReceiver(receiver, IntentFilter("android.intent.action.AIRPLANE_MODE"))
         //LocalBroadcastManager.getInstance(this).registerReceiver("myAction")
+
+        val sp = getSharedPreferences(KEY_SP_FILE_NAME_1, Context.MODE_PRIVATE)
+        //val sp = getSharedPreferences("fileName1", Context.MODE_MULTI_PROCESS)
+
+        val editor = sp.edit()
+        editor.putBoolean(KEY_SP_FILE_NAME_1_KEY_IS_RUSSIAN,true)
+        editor.apply()
 
         //PeriodicWorkRequestBuilder<>()
         //WorkManager.getInstance(this).enqueue()
