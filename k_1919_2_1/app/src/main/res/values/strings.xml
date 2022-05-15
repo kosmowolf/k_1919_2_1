@@ -10,6 +10,7 @@
     <string name="reload">Reload</string>
     <string name="feels_like_label">Чувствуется как</string>
     <string name="threads">Threads</string>
+    <string name="work_with_content_provider">WWCP</string>
 
 
 </resources>

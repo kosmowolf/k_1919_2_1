@@ -18,6 +18,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.k_1919_2_1.MyApp
 
 import com.example.k_1919_2_1.R
+import com.example.k_1919_2_1.databinding.FragmentWorkWithContentProviderBinding
 import com.example.k_1919_2_1.lesson3.Lesson3
 import com.example.k_1919_2_1.lesson3.someViewGroup
 import com.example.k_1919_2_1.lesson4.BaseImpl
@@ -27,6 +28,7 @@ import com.example.k_1919_2_1.lesson4.Speakable
 import com.example.k_1919_2_1.lesson6.MainService
 import com.example.k_1919_2_1.lesson6.MyBroadcastReceiver
 import com.example.k_1919_2_1.lesson6.ThreadsFragment
+import com.example.k_1919_2_1.lesson9.WorkWithContentProviderFragment
 import com.example.k_1919_2_1.utils.KEY_BUNDLE_ACTIVITY_MESSAGE
 import com.example.k_1919_2_1.utils.KEY_SP_FILE_NAME_1
 import com.example.k_1919_2_1.utils.KEY_SP_FILE_NAME_1_KEY_IS_RUSSIAN
@@ -85,6 +87,11 @@ class MainActivity : AppCompatActivity() {
             R.id.action_history->{
                 supportFragmentManager.beginTransaction()
                     .add(R.id.container, HistoryWeatherListFragment.newInstance()).addToBackStack("").commit()
+
+            }
+            R.id.action_work_with_content_provider->{
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, WorkWithContentProviderFragment.newInstance()).addToBackStack("").commit()
 
             }
         }
