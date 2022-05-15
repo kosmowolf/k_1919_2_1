@@ -31,6 +31,8 @@ import com.example.k_1919_2_1.utils.KEY_BUNDLE_ACTIVITY_MESSAGE
 import com.example.k_1919_2_1.utils.KEY_SP_FILE_NAME_1
 import com.example.k_1919_2_1.utils.KEY_SP_FILE_NAME_1_KEY_IS_RUSSIAN
 import com.example.k_1919_2_1.utils.KEY_WAVE
+import com.example.k_1919_2_1.view.weatherList.HistoryWeatherListAdapter
+import com.example.k_1919_2_1.view.weatherList.HistoryWeatherListFragment
 import com.example.k_1919_2_1.view.weatherList.WeatherListFragment
 import kotlinx.android.synthetic.main.fragment_threads.*
 
@@ -77,7 +79,12 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.action_threads->{
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, ThreadsFragment.newInstance()).commit()
+                    .replace(R.id.container, ThreadsFragment.newInstance()).addToBackStack("").commit()
+
+            }
+            R.id.action_history->{
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, HistoryWeatherListFragment.newInstance()).addToBackStack("").commit()
 
             }
         }

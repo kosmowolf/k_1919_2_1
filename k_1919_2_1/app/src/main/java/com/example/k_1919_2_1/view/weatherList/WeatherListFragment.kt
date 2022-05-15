@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +15,6 @@ import com.example.k_1919_2_1.ViewModel.MainViewModel
 import com.example.k_1919_2_1.databinding.FragmentWeatherListBinding
 import com.example.k_1919_2_1.repository.Weather
 import com.example.k_1919_2_1.utils.KEY_BUNDLE_WEATHER
-import com.example.k_1919_2_1.view.MainActivity
 import com.example.k_1919_2_1.view.details.DetailsFragment
 import com.google.android.material.snackbar.Snackbar
 

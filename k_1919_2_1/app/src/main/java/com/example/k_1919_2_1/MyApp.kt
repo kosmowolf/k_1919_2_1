@@ -21,6 +21,7 @@ class MyApp:Application() {
                 if(appContext!=null){
                     db = Room.databaseBuilder(appContext!!,MyDB::class.java,"test")
                         .allowMainThreadQueries()
+                        .addMigrations()
                         .build()
                 }else{
                     throw IllegalStateException("что-то пошло не так, и у нас пустое appContext")
@@ -35,5 +36,6 @@ class MyApp:Application() {
             }
 
         }
+
     }
 }

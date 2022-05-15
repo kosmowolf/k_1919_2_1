@@ -5,6 +5,10 @@
         android:id="@+id/action_threads"
         android:title="@string/threads"
         android:icon="@drawable/ic_thread"
-        app:showAsAction="always"
-        />
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_history"
+        android:title="history"
+
+        app:showAsAction="always"/>
 </menu>

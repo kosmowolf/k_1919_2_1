@@ -1,5 +1,8 @@
 package com.example.k_1919_2_1.view.details
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +20,8 @@ import com.example.k_1919_2_1.ViewModel.DetailsState
 import com.example.k_1919_2_1.ViewModel.DetailsViewModel
 import com.example.k_1919_2_1.databinding.FragmentDetailsBinding
 import com.example.k_1919_2_1.repository.Weather
+import com.example.k_1919_2_1.repository.dto.WeatherDTO
+import com.example.k_1919_2_1.utils.KEY_BUNDLE_SERVICE_BROADCAST_WEATHER
 import com.example.k_1919_2_1.utils.KEY_BUNDLE_WEATHER
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -38,6 +43,8 @@ class DetailsFragment : Fragment(){
         super.onDestroy()
         _binding = null
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
