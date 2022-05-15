@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.k_1919_2_1.MyApp
 
 import com.example.k_1919_2_1.R
 import com.example.k_1919_2_1.lesson3.Lesson3
@@ -57,6 +58,11 @@ class MainActivity : AppCompatActivity() {
         val editor = sp.edit()
         editor.putBoolean(KEY_SP_FILE_NAME_1_KEY_IS_RUSSIAN,true)
         editor.apply()
+
+        val defaultValueIsRussian = true
+        sp.getBoolean(KEY_SP_FILE_NAME_1_KEY_IS_RUSSIAN,defaultValueIsRussian)
+
+        MyApp.getHistoryDAO().getAll()
 
         //PeriodicWorkRequestBuilder<>()
         //WorkManager.getInstance(this).enqueue()
