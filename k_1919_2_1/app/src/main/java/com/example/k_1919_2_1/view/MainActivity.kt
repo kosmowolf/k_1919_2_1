@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         val defaultValueIsRussian = true
         sp.getBoolean(KEY_SP_FILE_NAME_1_KEY_IS_RUSSIAN,defaultValueIsRussian)
 
-        MyApp.getHistoryDAO().getAll()
+        MyApp.getHistoryDao().getAll()
 
         //PeriodicWorkRequestBuilder<>()
         //WorkManager.getInstance(this).enqueue()

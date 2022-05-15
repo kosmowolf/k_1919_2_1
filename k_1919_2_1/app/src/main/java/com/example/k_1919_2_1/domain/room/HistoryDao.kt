@@ -3,7 +3,7 @@ package com.example.k_1919_2_1.domain.room
 import androidx.room.*
 
 @Dao
-interface HistoryDAO {
+interface HistoryDao {
     @Query("Insert into history_table (city,temperature,feelsLike,icon) values (:city,:temperature,:feelsLike,:icon)")
     fun nativeInsert(city:  String, temperature: Int, feelsLike:Int, icon:String)
 
