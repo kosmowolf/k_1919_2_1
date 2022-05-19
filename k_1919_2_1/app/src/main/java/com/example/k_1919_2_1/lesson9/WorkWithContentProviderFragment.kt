@@ -2,23 +2,26 @@ package com.example.k_1919_2_1.lesson9
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.ContentResolver
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.provider.ContactsContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 
 import com.example.k_1919_2_1.databinding.FragmentWorkWithContentProviderBinding
 
 
-class WorkWithContentProviderFragment : Fragment(){
+class WorkWithContentProviderFragment : Fragment() {
 
     private var _binding: FragmentWorkWithContentProviderBinding? = null
     private val binding: FragmentWorkWithContentProviderBinding
-        get(){
+        get() {
             return _binding!!
         }
 
@@ -31,7 +34,7 @@ class WorkWithContentProviderFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentWorkWithContentProviderBinding.inflate(inflater,container,false)
+        _binding = FragmentWorkWithContentProviderBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -40,31 +43,37 @@ class WorkWithContentProviderFragment : Fragment(){
         checkPermission()
     }
 
-    private fun checkPermission(){
-        if(ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.READ_CONTACTS)
-            ==PackageManager.PERMISSION_GRANTED){
+    private fun checkPermission() {
+        // а есть ли разрешение?
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_CONTACTS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             getContacts()
-        }else if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)){
+        } else if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
+            // важно написать убедительную просьбу
             explain()
-        }else{
+        } else {
             mRequestPermission()
         }
     }
 
-    private fun explain(){
+    private fun explain() {
         AlertDialog.Builder(requireContext())
             .setTitle("Доступ к контактам")
-            .setMessage("Убедительно прошу предоставить доступ к контактам")
-            .setPositiveButton("Предоставить доступ"){_,_ ->
+            .setMessage("Объяснение бла бла бла бла")
+            .setPositiveButton("Предоставить доступ") { _, _ ->
                 mRequestPermission()
             }
-            .setNegativeButton("Не надо"){dialog, _ -> dialog.dismiss()}
+            .setNegativeButton("Не надо") { dialog, _ -> dialog.dismiss() }
             .create()
             .show()
     }
+
     val REQUEST_CODE = 999
     private fun mRequestPermission() {
-        requestPermissions(arrayOf(Manifest.permission.READ_CONTACTS),REQUEST_CODE)
+        requestPermissions(arrayOf(Manifest.permission.READ_CONTACTS), REQUEST_CODE)
     }
 
     override fun onRequestPermissionsResult(
@@ -72,35 +81,48 @@ class WorkWithContentProviderFragment : Fragment(){
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (requestCode==REQUEST_CODE){
+        if (requestCode == REQUEST_CODE) {
+
             for (i in permissions.indices) {
-                if(permissions[i]==Manifest.permission.READ_CONTACTS&&grantResults[i]==PackageManager.PERMISSION_GRANTED){
+                if (permissions[i] == Manifest.permission.READ_CONTACTS && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                     getContacts()
-                }else{
+                } else {
                     explain()
                 }
             }
-        }else{
+        } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
+    }
 
-    }
     private fun getContacts() {
-        //
+        val contentResolver: ContentResolver = requireContext().contentResolver
+
+        val cursor = contentResolver.query(
+            ContactsContract.Contacts.CONTENT_URI,
+            null,
+            null,
+            null,
+            ContactsContract.Contacts.DISPLAY_NAME + " ASC"
+        ) // или DESC
+        cursor?.let {
+            for (i in 0 until it.count){
+                if(cursor.moveToPosition(i)){
+                    val columnNameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+                    val name:String = cursor.getString(columnNameIndex)
+                    binding.containerForContacts.addView(TextView(requireContext()).apply {
+                        textSize = 30f
+                        text= name
+                    })
+                }
+            }
+        }
     }
+
 
     companion object {
         @JvmStatic
-        fun newInstance() =  WorkWithContentProviderFragment()
+        fun newInstance() = WorkWithContentProviderFragment()
     }
 
-
-
-
 }
-
-
-
-
-
-
