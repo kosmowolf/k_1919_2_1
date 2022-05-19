@@ -18,13 +18,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.k_1919_2_1.MyApp
 
 import com.example.k_1919_2_1.R
-import com.example.k_1919_2_1.databinding.FragmentWorkWithContentProviderBinding
-import com.example.k_1919_2_1.lesson3.Lesson3
-import com.example.k_1919_2_1.lesson3.someViewGroup
-import com.example.k_1919_2_1.lesson4.BaseImpl
-import com.example.k_1919_2_1.lesson4.BossDelegate
+
 import com.example.k_1919_2_1.lesson4.Lesson4
-import com.example.k_1919_2_1.lesson4.Speakable
+
 import com.example.k_1919_2_1.lesson6.MainService
 import com.example.k_1919_2_1.lesson6.MyBroadcastReceiver
 import com.example.k_1919_2_1.lesson6.ThreadsFragment
@@ -32,11 +28,10 @@ import com.example.k_1919_2_1.lesson9.WorkWithContentProviderFragment
 import com.example.k_1919_2_1.utils.KEY_BUNDLE_ACTIVITY_MESSAGE
 import com.example.k_1919_2_1.utils.KEY_SP_FILE_NAME_1
 import com.example.k_1919_2_1.utils.KEY_SP_FILE_NAME_1_KEY_IS_RUSSIAN
-import com.example.k_1919_2_1.utils.KEY_WAVE
-import com.example.k_1919_2_1.view.weatherList.HistoryWeatherListAdapter
+
 import com.example.k_1919_2_1.view.weatherList.HistoryWeatherListFragment
 import com.example.k_1919_2_1.view.weatherList.WeatherListFragment
-import kotlinx.android.synthetic.main.fragment_threads.*
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

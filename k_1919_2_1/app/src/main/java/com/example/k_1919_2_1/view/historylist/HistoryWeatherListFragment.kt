@@ -85,7 +85,7 @@ class HistoryWeatherListFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() =  WeatherListFragment()
+        fun newInstance() =  HistoryWeatherListFragment()
     }
 
 

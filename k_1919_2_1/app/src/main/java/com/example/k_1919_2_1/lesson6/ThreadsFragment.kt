@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 import com.example.k_1919_2_1.databinding.FragmentThreadsBinding
-import kotlinx.android.synthetic.main.fragment_threads.*
+
 import java.lang.Thread.sleep
 
 
